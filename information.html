@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>MyResume Bootstrap Template - Index</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/base16/humanoid-light.min.css">
+
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/my_styles.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: MyResume - v4.7.0
+  * Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Mobile nav toggle button ======= -->
+  <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
+  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex flex-column justify-content-center">
+
+    <nav id="navbar" class="navbar nav-menu">
+      <ul>
+        <li><a href="index.html" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
+     
+      </ul>
+    </nav><!-- .nav-menu -->
+
+  </header><!-- End Header -->
+  <main id="main">
+   
+    
+    <section id="about" class="about">
+        <div class="container" >
+          <div class="section-title2">
+            <h1 class="text-left">Exploratory Data Analysis using SQL - Bike Trips</h1>
+          </div>
+          <div class="title-image">
+            <img src="https://cdn.pixabay.com/photo/2016/12/14/13/33/girl-1906405_1280.jpg" class="title-image">
+          </div>
+          <!-- Question - 1 -->
+          <div class="section-title2">
+            <h3 class="text-left">1. which day has more trips than the other?</h3>
+            <pre><code class="sql">
+SELECT  COUNT(*) AS no_of_trips, DATE_PART('dow', start_time) as day_of_week
+FROM trips
+GROUP BY 2
+ORDER BY 1 DESC;
+            </code></pre>
+            <div class="section-title2">
+            <h5 class="text-left">OutPut :</h5>
+          
+            <img src="C:/Users/rajee/Desktop/sql_screenshots_trips/queries-answers/Screenshot 2022-05-20 112100.png" class="image-container">
+          </div>
+
+          <!-- Question - 2 -->
+          <div class="section-title2">
+            <h3 class="text-left">2. no of trips of weekdays vs weekends?</h3>
+            <pre><code class="sql">
+WITH t1 AS 
+  (SELECT  COUNT(*) AS no_of_trips, DATE_PART('dow', start_time) as day_of_week
+FROM trips
+GROUP BY 2)
+
+SELECT 
+    SUM(t1.no_of_trips) AS no_of_trips,
+    CASE WHEN t1.day_of_week >= 0 AND t1.day_of_week < 5 THEN 'weekdays' ELSE 'weekends' END AS week_type
+FROM t1
+GROUP BY 2
+ORDER BY 1 DESC;
+            </code></pre>
+            <div class="section-title2">
+            <h5 class="text-left">OutPut :</h5>
+          
+            <img src="C:/Users/rajee/Desktop/sql_screenshots_trips/queries-answers/Screenshot 2022-05-20 114759.png" class="image-container">
+          </div>
+
+              <!-- Question - 3 -->
+              <div class="section-title2">
+                <h3 class="text-left">3. average time taken on weekends vs weekends?</h3>
+                <pre><code class="sql">
+WITH t1 AS 
+	(SELECT  AVG(trips.duration_sec) AS time, DATE_PART('dow', start_time) as day_of_week
+FROM trips
+GROUP BY 2)
+SELECT
+  CAST((AVG(t1.time)) AS DECIMAL(8,1)) AS duration,
+  CASE WHEN t1.day_of_week >= 0 AND t1.day_of_week < 5 THEN 'weekdays' ELSE 'weekends' END AS week_type
+FROM t1
+GROUP BY 2
+ORDER BY 1 DESC;
+                </code></pre>
+                <div class="section-title2">
+                <h5 class="text-left">OutPut :</h5>
+              
+                <img src="C:/Users/rajee/Desktop/sql_screenshots_trips/queries-answers/Screenshot 2022-05-20 120859.png" class="image-container">
+              </div>
+          </section>
+        
+  
+       
+  </main>
+      
+
+   <!-- Vendor JS Files -->
+   <script src="assets/vendor/purecounter/purecounter.js"></script>
+   <script src="assets/vendor/aos/aos.js"></script>
+   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+   <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+   <script src="assets/vendor/typed.js/typed.min.js"></script>
+   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+   <script src="assets/vendor/php-email-form/validate.js"></script>
+
+ 
+   <!-- Template Main JS File -->
+   <script src="assets/js/main.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+
+   <script>hljs.highlightAll();</script>
+
+
+</body>
+

@@ -1,0 +1,227 @@
+.section-title2 {
+    text-align: left;
+    margin-bottom: 20px;
+    padding-bottom: 30px;
+  }
+
+ 
+  .section-title2 h3 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    color: #45505b;
+  }
+  
+  .section-title2 h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    color: #45505b;
+  }
+  
+  .section-title2 h1 {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    color: #45505b;
+  }
+
+  .section-title2 h4 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    color: #45505b;
+  }
+
+  .section-title2 h5 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    color: #45505b;
+  }
+
+  .section-title2 h6 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    color: #45505b;
+  }
+
+  .text-left{
+    text-align: left;
+  }
+
+  .image-container img {
+      padding: 0;
+  }
+
+  .image-container-python img {
+    width: 80%;
+}
+
+  .title-image img {
+     height: 300px;
+     width: 100%;
+     padding-bottom: 35px;
+     object-fit: cover;
+}
+
+.post-entry-1 {
+  margin-bottom: 30px;
+}
+.post-entry-1 img {
+  object-fit: cover;
+  margin-bottom: 30px;
+  height: 50%;
+}
+.post-entry-1 h2 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  font-weight: 500;
+}
+.post-entry-1 h2 a {
+  color: var(--color-black);
+}
+.post-entry-1.lg h2 {
+  font-size: 40px;
+  line-height: 1;
+}
+
+
+
+
+@media (min-width: 992px) {
+  #main2 {
+    margin-left: 120px;
+    margin-right: 150px;
+  }
+}
+
+.post-entry-2 {
+  margin-bottom: 30px;
+}
+.post-entry-2 .post-meta {
+  font-size: 11px;
+  letter-spacing: 0.07rem;
+  font-weight: 600;
+  font-family: var(--font-secondary);
+  color: rgba(var(--color-black-rgb), 0.4);
+  margin-bottom: 10px;
+}
+.post-entry-2 .author {
+  color: rgba(var(--color-black-rgb), 0.7);
+  font-weight: 500;
+  margin-bottom: 20px;
+  display: block;
+}
+.post-entry-2 .thumbnail {
+  flex: 0 0 65%;
+}
+@media (max-width: 960px) {
+  .post-entry-2 .thumbnail {
+    flex: 0 0 100%;
+    margin-bottom: 20px;
+  }
+}
+.post-entry-2.half .thumbnail {
+  flex: 0 0 50%;
+}
+@media (max-width: 768px) {
+  .post-entry-2.half .thumbnail {
+    flex: 0 0 100%;
+    margin-bottom: 20px;
+  }
+}
+.post-entry-2.small-img .thumbnail {
+  flex: 0 0 30%;
+}
+@media (max-width: 768px) {
+  .post-entry-2.small-img .thumbnail {
+    flex: 0 0 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.post-meta {
+  font-size: 11px;
+  letter-spacing: 0.07rem;
+  font-weight: 600;
+  font-family: var(--font-secondary);
+  color: rgba(var(--color-black-rgb), 0.4);
+  margin-bottom: 20px;
+}
+
+.post-meta2{
+  display: inline;
+  font-size: 11px;
+  letter-spacing: 0.07rem;
+  font-weight: 600;
+  font-family: var(--font-secondary);
+  color: rgba(var(--color-black-rgb), 0.4);
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.post-meta i{
+  display: inline;
+  font-size: 11.5px;
+  letter-spacing: 0.07rem;
+  font-weight: 400;
+  font-family: var(--font-secondary);
+  color: rgba(var(--color-black-rgb), 0.4);
+  padding-right: 4px;
+}
+
+.tableau svg{
+  padding: 25px;
+  height: 5%;
+  width: 5%; 
+  border: #45505b;
+}
+
+.icon-tableau-software:before {
+  content: "\e900";
+}
+
+
+
+
+    /* Number of Cards by Row based on Viewport */
+    @media (min-width: 576px) {
+      .card-deck .card {
+          min-width: 50.1%; /* 1 Column */
+          margin-bottom: 12px;
+      }
+  }
+
+  @media (min-width: 768px) {
+      .card-deck .card {
+          min-width: 33.4%;  /* 2 Columns */
+      }
+  }
+
+  @media (min-width: 992px) {
+      .card-deck .card {
+          min-width: 25.1%;  /* 3 Columns */
+      }
+  }
+
+  @media (min-width: 1200px) {
+      .card-deck .card {
+          min-width: 20.1%;  /* 4 Columns */
+      }
+  }

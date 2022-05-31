@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>MyResume Bootstrap Template - Index</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="../assets/img/favicon.png" rel="icon">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/base16/humanoid-light.min.css">
+
+
+  <!-- Template Main CSS File -->
+  <link href="../assets/css/my_styles.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: MyResume - v4.7.0
+  * Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Mobile nav toggle button ======= -->
+  <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
+  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex flex-column justify-content-center">
+
+    <nav id="navbar" class="navbar nav-menu">
+      <ul>
+        <li><a href="../index.html" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
+     
+      </ul>
+    </nav><!-- .nav-menu -->
+
+  </header><!-- End Header -->
+  <main id="main">
+   <section id="about" class="about">
+        <div class="container" >
+          <div class="section-title2">
+            <h1 class="text-left">Exploratory Data Analysis using SQL - Bike Trips</h1>
+          </div>
+          <div class="post-meta"><i class='bx bx-time-five'></i><span class="date">April 2022 - May 2022</span> <span class="mx-1">&bullet;</span> <span>SQL</span><i class="bx bxs-cloud-download"   style="padding-left:50px"> <a href="https://www.kaggle.com/datasets/erinbjornsson/baywheels-trip-data"></i><span>DataSet</span></a></div>
+          <div class="title-image">
+            <img src="https://cdn.pixabay.com/photo/2016/12/14/13/33/girl-1906405_1280.jpg" class="title-image">
+          </div>
+          <!-- Question - 1 -->
+          <div class="section-title2">
+            <h3 class="text-left">1. which day has more trips than the other?</h3>
+            <pre><code class="sql">
+SELECT  COUNT(*) AS no_of_trips, DATE_PART('dow', start_time) as day_of_week
+FROM trips
+GROUP BY 2
+ORDER BY 1 DESC;
+            </code></pre>
+          <div class="section-title2">
+            <h5 class="text-left">OutPut :</h5>
+          
+            <img src="../assets/img/queries-answers/Screenshot 2022-05-20 112100.png" class="image-container">
+          </div>
+
+          <!-- Question - 2 -->
+          <div class="section-title2">
+            <h3 class="text-left">2. no of trips of weekdays vs weekends?</h3>
+            <pre><code class="sql">
+WITH t1 AS 
+  (SELECT  COUNT(*) AS no_of_trips, DATE_PART('dow', start_time) as day_of_week
+FROM trips
+GROUP BY 2)
+
+SELECT 
+    SUM(t1.no_of_trips) AS no_of_trips,
+    CASE WHEN t1.day_of_week >= 0 AND t1.day_of_week < 5 THEN 'weekdays' ELSE 'weekends' END AS week_type
+FROM t1
+GROUP BY 2
+ORDER BY 1 DESC;
+            </code></pre>
+            <div class="section-title2">
+            <h5 class="text-left">OutPut :</h5>
+          
+            <img src="../assets/img/queries-answers/Screenshot 2022-05-20 114759.png" class="image-container">
+          </div>
+
+              <!-- Question - 3 -->
+              <div class="section-title2">
+                <h3 class="text-left">3. average time taken on weekdays vs weekends?</h3>
+                <pre><code class="sql">
+WITH t1 AS 
+	(SELECT  AVG(trips.duration_sec) AS time, DATE_PART('dow', start_time) as day_of_week
+FROM trips
+GROUP BY 2)
+SELECT
+  CAST((AVG(t1.time)) AS DECIMAL(8,1)) AS duration,
+  CASE WHEN t1.day_of_week >= 0 AND t1.day_of_week < 5 THEN 'weekdays' ELSE 'weekends' END AS week_type
+FROM t1
+GROUP BY 2
+ORDER BY 1 DESC;
+                </code></pre>
+                <div class="section-title2">
+                <h5 class="text-left">OutPut :</h5>
+              
+                <img src="../assets/img/queries-answers/Screenshot 2022-05-20 120859.png" class="image-container">
+              </div>
+
+            <!-- Question - 4 -->
+            <div class="section-title2">
+                <h3 class="text-left">4. What percentage each session of the day has?</h3>
+                <pre><code class="sql">
+WITH t1 AS (SELECT 
+    DATE_PART('dow',start_time) as dow, DATE_PART('HOUR',start_time) as hours, *
+    FROM trips),
+
+t2 AS (SELECT  t1.start_time AS time,
+            CASE WHEN t1.hours >= 0 AND t1.hours <= 1 THEN 'MID_NIGHTS'
+                 WHEN t1.hours >= 2 AND t1.hours <= 5 THEN 'EARLY_MORNINGS'
+                 WHEN t1.hours >= 6 AND t1.hours <= 11 THEN 'MORNINGS'
+                 WHEN t1.hours >= 12 AND t1.hours <= 15 THEN 'AFTER_NOONS'
+                 WHEN t1.hours >= 16 AND t1.hours <= 18 THEN 'EVENINGS'
+                 WHEN t1.hours >= 19 AND t1.hours <= 23 THEN 'NIGHT' END AS session_type
+       FROM t1)
+
+SELECT 
+    session_type, CAST((COUNT(*) * 100 / SUM(COUNT(*)) OVER()) AS DECIMAL(4,2))
+FROM t2
+GROUP BY 1
+ORDER BY 2 DESC;                
+                </code></pre>
+                <div class="section-title2">
+                <h5 class="text-left">OutPut :</h5>
+            
+                <img src="../assets/img/queries-answers/Screenshot 2022-05-25 100949.png" class="image-container">
+            </div>
+                       <!-- Question - 5 -->
+            <div class="section-title2">
+                <h3 class="text-left">5. What percentage each session of the day has?</h3>
+                <pre><code class="sql">
+WITH t1 AS (SELECT 
+    DATE_PART('dow',start_time) as dow, DATE_PART('HOUR',start_time) as hours, *
+    FROM trips),
+
+t2 AS (SELECT  t1.start_time AS time,
+            CASE WHEN t1.hours >= 0 AND t1.hours <= 1 THEN 'MID_NIGHTS'
+                 WHEN t1.hours >= 2 AND t1.hours <= 5 THEN 'EARLY_MORNINGS'
+                 WHEN t1.hours >= 6 AND t1.hours <= 11 THEN 'MORNINGS'
+                 WHEN t1.hours >= 12 AND t1.hours <= 15 THEN 'AFTER_NOONS'
+                 WHEN t1.hours >= 16 AND t1.hours <= 18 THEN 'EVENINGS'
+                 WHEN t1.hours >= 19 AND t1.hours <= 23 THEN 'NIGHT' END AS session_type
+       FROM t1)
+
+SELECT 
+    session_type, CAST((COUNT(*) * 100 / SUM(COUNT(*)) OVER()) AS DECIMAL(4,2))
+FROM t2
+GROUP BY 1
+ORDER BY 2 DESC;                
+                </code></pre>
+                <div class="section-title2">
+                <h5 class="text-left">OutPut :</h5>
+            
+                <img src="../assets/img/queries-answers/Screenshot 2022-05-25 100949.png" class="image-container">
+            </div>
+
+            <!-- Question - 6 -->
+            <div class="section-title2">
+                <h3 class="text-left">7. What percentage each session of the day has?</h3>
+                <pre><code class="sql">
+WITH t1 AS (SELECT 
+        DATE_PART('dow',start_time) as dow, DATE_PART('HOUR',start_time) as hours, *
+FROM trips),
+
+t2 AS (SELECT  t1.start_time AS time, t1.duration_sec,
+       CASE WHEN t1.hours >= 0 AND t1.hours <= 1 THEN 'MID_NIGHTS'
+            WHEN t1.hours >= 2 AND t1.hours <= 5 THEN 'EARLY_MORNINGS'
+            WHEN t1.hours >= 6 AND t1.hours <= 11 THEN 'MORNINGS'
+            WHEN t1.hours >= 12 AND t1.hours <= 15 THEN 'AFTER_NOONS'
+            WHEN t1.hours >= 16 AND t1.hours <= 18 THEN 'EVENINGS'
+            WHEN t1.hours >= 19 AND t1.hours <= 23 THEN 'NIGHT' END AS session_type
+FROM t1)
+
+SELECT session_type, CAST(AVG(t2.duration_sec) AS NUMERIC(6,2))
+FROM t2
+WHERE session_type IN('EVENINGS', 'MORNINGS')
+GROUP BY 1
+ORDER BY 2 DESC;
+                </code></pre>
+                <div class="section-title2">
+                <h5 class="text-left">OutPut :</h5>
+            
+                <img src="../assets/img/queries-answers/Screenshot 2022-05-25 111537.png" class="image-container">
+            </div>
+          
+          <!-- Question - 7 -->
+          <div class="section-title2">
+            <h3 class="text-left">6. display session-type with filter of weekdays and weekends?</h3>
+            <pre><code class="sql">
+WITH t1 AS (SELECT 
+    DATE_PART('dow',start_time) as dow, DATE_PART('HOUR',start_time) as hours, *
+FROM trips),
+
+t2 AS (SELECT  t1.start_time AS time, t1.duration_sec, t1.dow,
+       CASE WHEN t1.hours >= 0 AND t1.hours <= 1 THEN 'MID_NIGHTS'
+            WHEN t1.hours >= 2 AND t1.hours <= 5 THEN 'EARLY_MORNINGS'
+            WHEN t1.hours >= 6 AND t1.hours <= 11 THEN 'MORNINGS'
+            WHEN t1.hours >= 12 AND t1.hours <= 15 THEN 'AFTER_NOONS'
+            WHEN t1.hours >= 16 AND t1.hours <= 18 THEN 'EVENINGS'
+            WHEN t1.hours >= 19 AND t1.hours <= 23 THEN 'NIGHT' END AS session_type
+FROM t1)
+
+SELECT session_type,
+      SUM(CASE WHEN t2.dow >= 0 AND t2.dow <= 4 THEN 1 END) AS weekday,
+      SUM(CASE WHEN t2.dow >= 5 AND t2.dow <= 6 THEN 1 END) AS weekend
+FROM t2
+GROUP BY 1;
+            </code></pre>
+            <div class="section-title2">
+            <h5 class="text-left">OutPut :</h5>
+        
+            <img src="../assets/img/queries-answers/Screenshot 2022-05-25 120000.png" class="image-container">
+        </div>
+          <!-- Question - 8 -->
+          <div class="section-title2">
+            <h3 class="text-left">8. average time taken in the mornings and evenings on weekdays vs weekends</h3>
+            <pre><code class="sql">
+WITH t1 AS (SELECT 
+    DATE_PART('dow',start_time) as dow, DATE_PART('HOUR',start_time) as hours, *
+FROM trips),
+
+t2 AS (SELECT  t1.start_time AS time, t1.duration_sec, t1.dow,
+       CASE WHEN t1.hours >= 0 AND t1.hours <= 1 THEN 'MID_NIGHTS'
+            WHEN t1.hours >= 2 AND t1.hours <= 5 THEN 'EARLY_MORNINGS'
+            WHEN t1.hours >= 6 AND t1.hours <= 11 THEN 'MORNINGS'
+            WHEN t1.hours >= 12 AND t1.hours <= 15 THEN 'AFTER_NOONS'
+            WHEN t1.hours >= 16 AND t1.hours <= 18 THEN 'EVENINGS'
+            WHEN t1.hours >= 19 AND t1.hours <= 23 THEN 'NIGHT' END AS session_type,
+       
+       CASE WHEN t1.dow >= 0 AND t1.dow <= 4 THEN 'WEEKDAY'
+            WHEN t1.dow >= 5 AND t1.dow <= 6 THEN 'WEEKEND' END AS week_type
+FROM t1)
+
+SELECT session_type, week_type, CAST(AVG(t2.duration_sec) AS NUMERIC(6,2))
+FROM t2
+WHERE session_type IN('MORNINGS', 'EVENINGS')
+GROUP BY 1,2;            
+            </code></pre>
+            <div class="section-title2">
+            <h5 class="text-left">OutPut :</h5>
+        
+            <img src="../assets/img/queries-answers/Screenshot 2022-05-25 121626.png" class="image-container">
+        </div>
+
+                  <!-- Question - 9 -->
+                  <div class="section-title2">
+                    <h3 class="text-left">9. no of trips taken every year?</h3>
+                    <pre><code class="sql">
+WITH t1 AS (SELECT *, DATE_PART('year', start_time) AS _year_
+FROM trips)
+
+SELECT t1._year_, COUNT(t1.*) AS tripss
+FROM t1
+GROUP BY 1;           
+                    </code></pre>
+                    <div class="section-title2">
+                    <h5 class="text-left">OutPut :</h5>
+                
+                    <img src="../assets/img/queries-answers/Screenshot 2022-05-28 144240.png" class="image-container">
+                </div>
+                  <!-- Question - 10 -->
+                <div class="section-title2">
+                  <h3 class="text-left">10. top 10 busiest stations</h3>
+                  <pre><code class="sql">
+WITH t1 AS (SELECT end_station_id AS station_id, COUNT(end_station_id) AS incoming_traffic, out_going.out_going_traffic
+FROM trips
+JOIN(
+     SELECT start_station_id, COUNT(start_station_id) AS out_going_traffic
+     FROM trips
+     GROUP BY 1) AS out_going
+ON trips.end_station_id = out_going.start_station_id
+GROUP BY 1, out_going.out_going_traffic
+ORDER BY 3 DESC) 
+
+SELECT station.station_name AS station, t1.*, incoming_traffic + out_going_traffic AS total_traffic
+FROM t1
+JOIN station
+ON t1.station_id = station.station_id
+LIMIT 10;          
+                  </code></pre>
+                  <div class="section-title2">
+                  <h5 class="text-left">OutPut :</h5>
+              
+                  <img src="../assets/img/queries-answers/Screenshot 2022-05-28 161329.png" class="image-container">
+                  </div>
+
+                <!-- Question - 11 -->
+                <div class="section-title2">
+                  <h3 class="text-left">11. top 5 busiest in between stations</h3>
+                  <pre><code class="sql">
+SELECT s.station_name, st.station_name, COUNT(trips.*) AS no_of_trips
+FROM trips
+JOIN station s
+ON s.station_id = trips.start_station_id
+JOIN station st
+ON st.station_id = trips.end_station_id
+GROUP BY 1,2
+ORDER BY 3 DESC
+LIMIT 5;        
+                  </code></pre>
+                  <div class="section-title2">
+                  <h5 class="text-left">OutPut :</h5>
+              
+                  <img src="../assets/img/queries-answers/Screenshot 2022-05-28 231232.png" class="image-container">
+                  </div>
+                <!-- Question - 12 -->
+                <div class="section-title2">
+                  <h3 class="text-left">12. Average speed(Km/h) of top 5 busiest in between stations</h3>
+                  <pre><code class="sql">
+WITH T1 AS (
+  SELECT tr.start_station_id, 
+  tr.end_station_id, 
+  tr.duration_sec, 
+  tr.start_time, 
+  tr.end_time, 
+  s.lat AS start_lat, 
+  s.lon AS start_lon, 
+  st.lat AS end_lat, 
+  st.lon AS end_lon
+FROM trips tr
+JOIN station s
+ON s.station_id = tr.start_station_id
+JOIN station st
+ON st.station_id = tr.end_station_id),
+
+t2 AS (
+    SELECT 
+      t1.*, 
+      CAST(t1.duration_sec/3600.0 AS NUMERIC(10,8)) as duration_in_hours,
+      to_char(float8 (point(t1.start_lat,t1.start_lon) <@> point(t1.end_lat,t1.end_lon)), 'FM999999999.00') as distance_in_miles,
+      CAST(to_char(float8 (point(t1.start_lat,t1.start_lon) <@> point(t1.end_lat,t1.end_lon)), 'FM999999999.00') AS NUMERIC) * 1.60934 as distance_in_km
+FROM t1)
+
+SELECT s.station_name AS from_station, 
+       st.station_name AS to_station, 
+       CAST(AVG(t2.distance_in_km/NULLIF(t2.duration_in_hours, 0)) AS NUMERIC(10,3)) AS avg_speeed
+FROM t2
+JOIN station s
+ON s.station_id = t2.start_station_id
+JOIN station st
+ON st.station_id = t2.end_station_id
+GROUP BY 1,2
+ORDER BY COUNT(t2.*) DESC
+LIMIT 5;                           
+                  </code></pre>
+                  <div class="section-title2">
+                  <h5 class="text-left">OutPut :</h5>
+              
+                  <img src="../assets/img/queries-answers/Screenshot 2022-05-28 230827.png" class="image-container">
+                  </div>
+
+
+
+
+          </section>
+        
+  
+       
+  </main>
+      
+
+   <!-- Vendor JS Files -->
+   <script src="../assets/vendor/purecounter/purecounter.js"></script>
+   <script src="../assets/vendor/aos/aos.js"></script>
+   <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+   <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+   <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+   <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+   <script src="../assets/vendor/typed.js/typed.min.js"></script>
+   <script src="../assets/vendor/waypoints/noframework.waypoints.js"></script>
+   <script src="../assets/vendor/php-email-form/validate.js"></script>
+
+ 
+   <!-- Template Main JS File -->
+   <script src="../assets/js/main.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+
+   <script>hljs.highlightAll();</script>
+
+
+</body>
+
