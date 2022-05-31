@@ -152,37 +152,66 @@ ORDER BY 2 DESC;
                 <img src="../assets/img/queries-answers/Screenshot 2022-05-25 100949.png" class="image-container">
             </div>
                        <!-- Question - 5 -->
+ 
             <div class="section-title2">
-                <h3 class="text-left">5. What percentage each session of the day has?</h3>
-                <pre><code class="sql">
+              <h3 class="text-left">5. How many rides were taken place when wind speed was more than 50mph?</h3>
+              <pre><code class="sql">
+WITH weather_t AS (
+    SELECT *, DATE_PART('hour', time) AS hours, (time::date) AS date
+    FROM weather
+),
+
+t2 as (
+    SELECT weather_t.*, CONCAT(weather_t.date, ' ', weather_t.hours) AS format_date
+    FROM weather_t),
+
+t1 AS(
+    SELECT *, DATE_PART('hour', start_time) AS hours, (start_time::date) AS date
+    FROM trips
+)
+
+SELECT COUNT(t1.*) as trips
+FROM t1
+JOIN t2
+ON t2.station_id = t1.start_station_id
+WHERE CONCAT(t1.date,' ',t1.hours) = t2.format_date AND t1.start_station_id = t2.station_id AND t2.wspd > 50;              
+              </code></pre>
+              <div class="section-title2">
+              <h5 class="text-left">OutPut :</h5>
+          
+              <img src="../assets/img/queries-answers/Screenshot 2022-05-31 212609.png" class="image-container">
+          </div>
+
+                       <div class="section-title2">
+                        <h3 class="text-left">6. display session-type with filter of weekdays and weekends?</h3>
+                        <pre><code class="sql">
 WITH t1 AS (SELECT 
     DATE_PART('dow',start_time) as dow, DATE_PART('HOUR',start_time) as hours, *
-    FROM trips),
+FROM trips),
 
-t2 AS (SELECT  t1.start_time AS time,
-            CASE WHEN t1.hours >= 0 AND t1.hours <= 1 THEN 'MID_NIGHTS'
-                 WHEN t1.hours >= 2 AND t1.hours <= 5 THEN 'EARLY_MORNINGS'
-                 WHEN t1.hours >= 6 AND t1.hours <= 11 THEN 'MORNINGS'
-                 WHEN t1.hours >= 12 AND t1.hours <= 15 THEN 'AFTER_NOONS'
-                 WHEN t1.hours >= 16 AND t1.hours <= 18 THEN 'EVENINGS'
-                 WHEN t1.hours >= 19 AND t1.hours <= 23 THEN 'NIGHT' END AS session_type
-       FROM t1)
+t2 AS (SELECT  t1.start_time AS time, t1.duration_sec, t1.dow,
+       CASE WHEN t1.hours >= 0 AND t1.hours <= 1 THEN 'MID_NIGHTS'
+            WHEN t1.hours >= 2 AND t1.hours <= 5 THEN 'EARLY_MORNINGS'
+            WHEN t1.hours >= 6 AND t1.hours <= 11 THEN 'MORNINGS'
+            WHEN t1.hours >= 12 AND t1.hours <= 15 THEN 'AFTER_NOONS'
+            WHEN t1.hours >= 16 AND t1.hours <= 18 THEN 'EVENINGS'
+            WHEN t1.hours >= 19 AND t1.hours <= 23 THEN 'NIGHT' END AS session_type
+FROM t1)
 
-SELECT 
-    session_type, CAST((COUNT(*) * 100 / SUM(COUNT(*)) OVER()) AS DECIMAL(4,2))
+SELECT session_type,
+      SUM(CASE WHEN t2.dow >= 0 AND t2.dow <= 4 THEN 1 END) AS weekday,
+      SUM(CASE WHEN t2.dow >= 5 AND t2.dow <= 6 THEN 1 END) AS weekend
 FROM t2
-GROUP BY 1
-ORDER BY 2 DESC;                
-                </code></pre>
-                <div class="section-title2">
-                <h5 class="text-left">OutPut :</h5>
+GROUP BY 1;
+                        </code></pre>
+                        <div class="section-title2">
+                        <h5 class="text-left">OutPut :</h5>
+                    
+                        <img src="../assets/img/queries-answers/Screenshot 2022-05-25 120000.png" class="image-container">
+                    </div>
             
-                <img src="../assets/img/queries-answers/Screenshot 2022-05-25 100949.png" class="image-container">
-            </div>
-
-            <!-- Question - 6 -->
             <div class="section-title2">
-                <h3 class="text-left">7. What percentage each session of the day has?</h3>
+                <h3 class="text-left">7. Average time taken in the mornings vs evenings</h3>
                 <pre><code class="sql">
 WITH t1 AS (SELECT 
         DATE_PART('dow',start_time) as dow, DATE_PART('HOUR',start_time) as hours, *
@@ -209,34 +238,8 @@ ORDER BY 2 DESC;
                 <img src="../assets/img/queries-answers/Screenshot 2022-05-25 111537.png" class="image-container">
             </div>
           
-          <!-- Question - 7 -->
-          <div class="section-title2">
-            <h3 class="text-left">6. display session-type with filter of weekdays and weekends?</h3>
-            <pre><code class="sql">
-WITH t1 AS (SELECT 
-    DATE_PART('dow',start_time) as dow, DATE_PART('HOUR',start_time) as hours, *
-FROM trips),
+          
 
-t2 AS (SELECT  t1.start_time AS time, t1.duration_sec, t1.dow,
-       CASE WHEN t1.hours >= 0 AND t1.hours <= 1 THEN 'MID_NIGHTS'
-            WHEN t1.hours >= 2 AND t1.hours <= 5 THEN 'EARLY_MORNINGS'
-            WHEN t1.hours >= 6 AND t1.hours <= 11 THEN 'MORNINGS'
-            WHEN t1.hours >= 12 AND t1.hours <= 15 THEN 'AFTER_NOONS'
-            WHEN t1.hours >= 16 AND t1.hours <= 18 THEN 'EVENINGS'
-            WHEN t1.hours >= 19 AND t1.hours <= 23 THEN 'NIGHT' END AS session_type
-FROM t1)
-
-SELECT session_type,
-      SUM(CASE WHEN t2.dow >= 0 AND t2.dow <= 4 THEN 1 END) AS weekday,
-      SUM(CASE WHEN t2.dow >= 5 AND t2.dow <= 6 THEN 1 END) AS weekend
-FROM t2
-GROUP BY 1;
-            </code></pre>
-            <div class="section-title2">
-            <h5 class="text-left">OutPut :</h5>
-        
-            <img src="../assets/img/queries-answers/Screenshot 2022-05-25 120000.png" class="image-container">
-        </div>
           <!-- Question - 8 -->
           <div class="section-title2">
             <h3 class="text-left">8. average time taken in the mornings and evenings on weekdays vs weekends</h3>
